@@ -36,6 +36,13 @@
     (sort (set/difference (set migration-files)
                           (set (completed-migrations db migration-files))))))
 
+(defn unwrap-exception [^Throwable ex]
+  (cond (and (instance? java.sql.SQLException ex) 
+             (.getNextException ex)) (unwrap-exception (.getNextException ex ))
+        (and (instance? RuntimeException ex) 
+             (.getCause ex)) (unwrap-exception (.getCause ex))
+        :else ex))
+
 (defn run-migrations [db files direction]
   (doseq [file files]
     (files/load-migration-file file)
@@ -48,7 +55,8 @@
          (do (println (str "Migrating: " file))
            (sql/insert! trans_db :clj_sql_migrations {:name migr-id})))
        (doseq [s sql-arr]
-         (sql/db-do-commands trans_db s)))))))
+         (try (sql/db-do-commands trans_db s)
+              (catch Exception e (throw (unwrap-exception e))))))))))
 
 (defn migrate [db]
   (create-migrations-tbl db)
