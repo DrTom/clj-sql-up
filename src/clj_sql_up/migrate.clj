@@ -55,7 +55,7 @@
          (do (println (str "Migrating: " file))
            (sql/insert! trans_db :clj_sql_migrations {:name migr-id})))
        (doseq [s sql-arr]
-         (try (sql/db-do-commands trans_db s)
+         (try (sql/execute! trans_db [s])
               (catch Exception e (throw (unwrap-exception e))))))))))
 
 (defn migrate [db]
