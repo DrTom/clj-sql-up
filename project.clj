@@ -1,5 +1,6 @@
-(defproject clj-sql-up "0.3.2-SNAPSHOT"
-  :description "A simple leiningen plugin for managing sql migrations"
+(defproject drtoms-clj-sql-up "0.3.2"
+  :description "A simple leiningen plugin for managing sql migrations.
+                This is a fork, consider to use the original version"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]

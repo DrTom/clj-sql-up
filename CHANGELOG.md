@@ -1,5 +1,9 @@
 ## Releases
 
+### 0.3.2
+* unwrap exceptions to get useful output when things go wrong
+* enable loading of complete sql-files (by using sql/execute!)
+
 ### 0.3.1
 * jdbc 0.3.3 compatibility
 * more testing
